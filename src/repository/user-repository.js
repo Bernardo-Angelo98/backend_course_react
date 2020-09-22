@@ -12,7 +12,32 @@ exports.getAll = async() =>{
 
 exports.create = async(data) =>{
     let user = new User(data);
-    let userCreated = await user.save();
+
+    return await user.save();
+}
+
+exports.update = async(id,data) =>{
+    console.log(data);
+    //let userUpdate =
+    return await User.findByIdAndUpdate(id,{
+        $set:{
+            name:data.name,
+            email:data.email,
+            password:data.password,
+            status:data.status
+        }
     
-    return await userCreated;
+    });
+}
+
+exports.delete = async(id) =>{
+    return await User.findByIdAndDelete({_id:id});
+}
+
+exports.deleteLogic = async(id,data) =>{
+    return await User.findByIdAndUpdate(id,{
+        $set: {
+            status:false
+        }
+    });
 }
