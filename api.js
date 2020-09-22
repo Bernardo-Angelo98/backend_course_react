@@ -1,34 +1,19 @@
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/curso_react',
+    {
+        useUnifiedTopology:true,
+        useNewUrlParser: true
+    }
+);
+var Users = require('./src/model/user');
+
+const userRouter = require('./src/routes/user-route');
+
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-
-var USERS = [
-    {'id': 1, 'username':'bruno','password': '123456'},
-    {'id': 2, 'username':'paulo','password': '123456'}
-];
-
-var HELLO = {
-    'msg':'Hello Express'
-};
-
-function getHello(){
-    return HELLO;
-}
-
-function getUsers(){
-    return USERS;
-}
-
 app.use(bodyParser.json());
-
-app.get('/',function(req,res){
-    res.send(getHello());
-});
-
-app.get('/users',function(req,res){
-    res.send(getUsers());
-});
-
+app.use('/user',userRouter);
 app.listen(4000,function(){
     console.log('Hello Express listen on Port 4000');
 });
